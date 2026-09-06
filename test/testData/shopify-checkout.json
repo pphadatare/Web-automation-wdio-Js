@@ -1,0 +1,22 @@
+{
+  "product": {
+    "name": "Grey jacket",
+    "handle": "grey-jacket"
+  },
+  "customer": {
+    "email": "test.buyer@example.com",
+    "firstName": "Test",
+    "lastName": "Buyer",
+    "address": "10 Downing Street",
+    "city": "London",
+    "country": "United Kingdom",
+    "postalCode": "SW1A 1AA",
+    "phone": "02079460000"
+  },
+  "payment": {
+    "cardNumber": "1",
+    "expiry": "1230",
+    "cvv": "123",
+    "nameOnCard": "Test Buyer"
+  }
+}

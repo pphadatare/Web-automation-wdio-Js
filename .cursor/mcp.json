@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "wdio-mcp": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/node_modules/@wdio/mcp/lib/server.js"]
+    }
+  }
+}

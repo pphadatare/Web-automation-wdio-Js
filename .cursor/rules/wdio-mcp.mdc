@@ -1,0 +1,15 @@
+---
+description: Use WebdriverIO MCP to explore the app and author Cucumber tests that match this framework
+globs: test/**/*.js,test/**/*.feature,wdio.conf.js
+alwaysApply: true
+---
+
+# WebdriverIO MCP
+
+Use `wdio-mcp` when exploring the UI, verifying locators, or drafting tests.
+
+- Session: Chrome, headed unless `HEADLESS=true`
+- App: `https://sauce-demo.myshopify.com/`
+- Prefer `get_elements` over screenshots
+- Put locators and actions in page objects; keep Gherkin in `test/features`
+- Close the session with `close_session` when finished
