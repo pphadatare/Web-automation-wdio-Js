@@ -4,6 +4,7 @@
   "scripts": {
     "test": "wdio run ./wdio.conf.js",
     "test:e2e": "wdio run ./wdio.conf.js --cucumberOpts.tags='@e2e'",
+    "ci:install": "npm ci --no-audit --no-fund",
     "report": "ALLURE_NO_ANALYTICS=1 allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
     "mcp": "wdio-mcp"

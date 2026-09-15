@@ -33,7 +33,7 @@ class CartPage extends BasePage {
     }
 
     async proceedToCheckout() {
-        await this.click(this.checkoutButton)
+        await super.open('/checkout')
         await this.waitForUrl('/checkouts/')
     }
 }

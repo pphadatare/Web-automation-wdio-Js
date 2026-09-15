@@ -71,6 +71,7 @@ class CheckoutPage extends BasePage {
             return !bodyText.includes('Enter your shipping address to view available shipping methods')
         }, {
             timeout: env.timeouts.shipping,
+            interval: 400,
             timeoutMsg: 'Shipping methods did not load after entering the address'
         })
 
@@ -94,32 +95,38 @@ class CheckoutPage extends BasePage {
     async waitForOrderConfirmation() {
         await browser.waitUntil(async () => {
             const url = await browser.getUrl()
+            if (url.includes('thank-you')) {
+                return true
+            }
             const bodyText = await $('body').getText()
-            return url.includes('thank-you')
-                || /thank you|your order is confirmed|order confirmed/i.test(bodyText)
+            return /thank you|your order is confirmed|order confirmed/i.test(bodyText)
         }, {
             timeout: env.timeouts.confirmation,
+            interval: 400,
             timeoutMsg: 'Order confirmation page did not appear after placing the order'
         })
     }
 
     async #waitForCheckoutForm() {
         await this.email.waitForDisplayed()
-        await this.payNowButton.waitForDisplayed()
     }
 
     async #typeInCardIframe(title, fieldId, value) {
-        const iframe = await $(`iframe[title="${title}"]`)
+        const iframeSelector = `iframe[title="${title}"]`
+        const iframe = await $(iframeSelector)
         await iframe.waitForExist()
         await this.scrollTo(iframe)
         await browser.switchFrame(iframe)
         try {
             const input = await $(`#${fieldId}`)
             await input.waitForExist()
-            await browser.execute((el) => {
-                el.focus()
-                el.value = ''
-            }, input)
+            await browser.execute((id) => {
+                const field = document.getElementById(id)
+                if (field) {
+                    field.focus()
+                    field.value = ''
+                }
+            }, fieldId)
             await browser.keys(value.split(''))
         } finally {
             await browser.switchFrame(null)

@@ -2,7 +2,16 @@ const fs = require('fs')
 const path = require('path')
 const env = require('./env')
 
-const chromeArgs = ['--window-size=1280,900', '--disable-infobars']
+const chromeArgs = [
+    '--window-size=1280,900',
+    '--disable-infobars',
+    '--no-first-run',
+    '--no-default-browser-check',
+    '--disable-extensions',
+    '--disable-sync',
+    '--disable-translate',
+    '--disable-background-networking'
+]
 if (env.headless) {
     chromeArgs.push('--headless=new')
 }
@@ -29,8 +38,9 @@ exports.config = {
     logLevel: process.env.LOG_LEVEL || 'warn',
     bail: 0,
     waitforTimeout: env.timeouts.wait,
+    waitforInterval: 250,
     connectionRetryTimeout: 120000,
-    connectionRetryCount: 3,
+    connectionRetryCount: 2,
     reporters: [
         'spec',
         ['allure', {

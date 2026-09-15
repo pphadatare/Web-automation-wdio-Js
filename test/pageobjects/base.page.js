@@ -11,7 +11,10 @@ class BasePage {
     }
 
     async scrollTo(element) {
-        await element.scrollIntoView()
+        const { y } = await element.getLocation()
+        await browser.execute((top) => {
+            window.scrollTo(0, Math.max(0, top - 180))
+        }, y)
     }
 
     async type(element, value) {
@@ -29,33 +32,29 @@ class BasePage {
             async () => (await browser.getUrl()).includes(substring),
             {
                 timeout,
+                interval: 250,
                 timeoutMsg: `URL did not contain "${substring}"`
             }
         )
     }
 
     async firstDisplayed(selector, timeout = env.timeouts.wait) {
+        let match
         await browser.waitUntil(async () => {
             const elements = await $$(selector)
             for (const element of elements) {
                 if (await element.isDisplayed()) {
+                    match = element
                     return true
                 }
             }
             return false
         }, {
             timeout,
+            interval: 250,
             timeoutMsg: `No visible element matched "${selector}"`
         })
-
-        const elements = await $$(selector)
-        for (const element of elements) {
-            if (await element.isDisplayed()) {
-                return element
-            }
-        }
-
-        throw new Error(`No visible element matched "${selector}"`)
+        return match
     }
 }
 
